@@ -27,35 +27,29 @@ fn main() {
             exit(1);
         }
     };
-    let colors = match Colors::from_act(&bytes) {
-        Ok(colors) => colors,
+    let palette = match Palette::from_act(&bytes) {
+        Ok(palette) => palette,
         Err(error) => {
             eprintln!("Failed to process ACT palette: {error}.");
             exit(1);
         }
     };
     if let Some(assert_len) = assert_len {
-        if assert_len != colors.len() {
-            eprintln!("Got {} colors, expected {assert_len}.", colors.len());
+        let len = palette.len();
+        if assert_len != len {
+            eprintln!("Got {len} colors, expected {assert_len}.");
             exit(1);
         }
     }
-    let pal = match colors.to_pal_string() {
-        Ok(pal) => pal,
-        Err(error) => {
-            eprintln!("{error} generating PAL string.");
-            exit(1);
-        }
-    };
     match output {
         Some(output) => {
-            if let Err(error) = fs::write(&output, pal) {
+            if let Err(error) = fs::write(&output, palette.to_string()) {
                 eprintln!("{error} writing PAL file.");
                 exit(1);
             }
         }
         None => {
-            print!("{pal}")
+            print!("{palette}")
         }
     }
 }

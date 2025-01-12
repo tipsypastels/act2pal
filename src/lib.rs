@@ -1,10 +1,6 @@
 #![doc = include_str!("../README.md")]
 
-use std::{
-    error,
-    fmt::{self, Write},
-    ops::Deref,
-};
+use std::{error, fmt, ops::Deref};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Color {
@@ -26,11 +22,11 @@ impl PartialEq<(u8, u8, u8)> for Color {
 }
 
 #[derive(Debug, PartialEq)]
-pub struct Colors {
+pub struct Palette {
     colors: Vec<Color>,
 }
 
-impl Colors {
+impl Palette {
     pub fn new(colors: Vec<Color>) -> Self {
         Self { colors }
     }
@@ -61,22 +57,22 @@ impl Colors {
 
         Ok(Self { colors })
     }
+}
 
-    pub fn to_pal_string(&self) -> Result<String, fmt::Error> {
-        const MAGIC: &str = "JASC-PAL\n0100\n";
-
-        let mut s = String::from(MAGIC);
-        writeln!(s, "{}", self.colors.len())?;
+impl fmt::Display for Palette {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(f, "JASC-PAL\n0100")?;
+        writeln!(f, "{}", self.colors.len())?;
 
         for Color { r, g, b } in &self.colors {
-            writeln!(s, "{r} {g} {b}")?;
+            writeln!(f, "{r} {g} {b}")?;
         }
 
-        Ok(s)
+        Ok(())
     }
 }
 
-impl Deref for Colors {
+impl Deref for Palette {
     type Target = [Color];
 
     fn deref(&self) -> &Self::Target {

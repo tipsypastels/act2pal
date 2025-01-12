@@ -11,12 +11,11 @@ act2pal -i input.act -o output.pal
 
 ## Usage (Rust)
 
-```rust
-use act2pal::Colors;
+```rust,ignore
+use act2pal::Palette;
 
-let bytes = std::fs::read("input.act")?;
-let colors = Colors::from_act(&bytes)?;
-let pal = colors.to_pal_string()?;
+let act = std::fs::read("input.act")?;
+let pal = Palette::from_act(&act)?;
 
-std::fs::write("output.pal", pal)?;
+std::fs::write("output.pal", pal.to_string())?;
 ```

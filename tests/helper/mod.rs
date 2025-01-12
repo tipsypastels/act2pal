@@ -1,18 +1,17 @@
 #![allow(unused)]
 
-use act2pal::Colors;
+use act2pal::Palette;
 
 macro_rules! act {
     ($($byte:literal)*) => {
-        Colors::from_act(&[$($byte),*])
+        Palette::from_act(&[$($byte),*])
     };
 }
 
-macro_rules! colors {
+macro_rules! pal {
     ($($r:literal $g:literal $b:literal),*$(,)?) => {
-        Colors::new(vec![$(($r, $g, $b).into()),*])
+        Palette::new(vec![$(($r, $g, $b).into()),*])
     };
 }
 
-pub(crate) use act;
-pub(crate) use colors;
+pub(crate) use {act, pal};
