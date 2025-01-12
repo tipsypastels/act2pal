@@ -48,11 +48,11 @@ impl Palette {
 
         let count = *bytes
             .get(bytes.len() - COUNT_OFFSET_FROM_END)
-            .ok_or(ParseError)?;
+            .ok_or(ParseError)? as usize;
 
         let colors = bytes
             .chunks_exact(BYTES_PER_COLOR)
-            .take(count as _)
+            .take(count)
             .map(|chunk| {
                 Ok(Color {
                     r: *chunk.first().ok_or(ParseError)?,
@@ -62,7 +62,7 @@ impl Palette {
             })
             .collect::<Result<Vec<_>, ParseError>>()?;
 
-        if colors.len() as u8 != count {
+        if colors.len() != count {
             return Err(ParseError);
         }
 
@@ -88,6 +88,14 @@ impl Deref for Palette {
 
     fn deref(&self) -> &Self::Target {
         &self.colors
+    }
+}
+
+impl FromIterator<Color> for Palette {
+    fn from_iter<T: IntoIterator<Item = Color>>(iter: T) -> Self {
+        Self {
+            colors: Vec::from_iter(iter),
+        }
     }
 }
 

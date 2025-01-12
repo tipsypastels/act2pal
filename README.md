@@ -13,6 +13,12 @@ cargo install act2pal
 act2pal -i input.act -o output.pal
 ```
 
+The `--assert-len` flag can be used to early exit if the number of colors in the palette is not as expected.
+
+```bash
+act2pal -i input.act -o output.pal --assert-len 256
+```
+
 ## Usage (Rust)
 
 ```rust,ignore
@@ -23,3 +29,5 @@ let pal = Palette::from_act(&act)?;
 
 std::fs::write("output.pal", pal.to_string())?;
 ```
+
+The `Palette` type implements `Deref<Target = [Color]>` and `FromIterator<Color>` and can thus be manipulated freely.

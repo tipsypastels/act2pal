@@ -10,7 +10,7 @@ struct Command {
     #[arg(short, long, value_name = "FILE")]
     output: Option<PathBuf>,
 
-    #[arg(short = 'l', long, value_name = "NUMBER")]
+    #[arg(long, value_name = "LEN")]
     assert_len: Option<usize>,
 }
 
