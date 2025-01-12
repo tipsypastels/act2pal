@@ -50,11 +50,14 @@ impl Colors {
                     g: *chunk.get(1).ok_or(ParseError)?,
                     b: *chunk.get(2).ok_or(ParseError)?,
                 })
-            });
+            })
+            .collect::<Result<Vec<_>, ParseError>>()?;
 
-        Ok(Self {
-            colors: colors.collect::<Result<_, ParseError>>()?,
-        })
+        if colors.len() as u8 != count {
+            return Err(ParseError);
+        }
+
+        Ok(Self { colors })
     }
 
     pub fn to_pal_string(&self) -> Result<String, fmt::Error> {
