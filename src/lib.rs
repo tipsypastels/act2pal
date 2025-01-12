@@ -1,11 +1,16 @@
 #![doc = include_str!("../README.md")]
+#![warn(missing_docs)]
 
 use std::{error, fmt, ops::Deref};
 
+/// An RGB color.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Color {
+    /// The red component of the color.
     pub r: u8,
+    /// The blue component of the color.
     pub g: u8,
+    /// The green component of the color.
     pub b: u8,
 }
 
@@ -21,16 +26,22 @@ impl PartialEq<(u8, u8, u8)> for Color {
     }
 }
 
+/// A palette of colors created from a vector or from parsing the bytes of a `.act` file.
 #[derive(Debug, PartialEq)]
 pub struct Palette {
     colors: Vec<Color>,
 }
 
 impl Palette {
+    /// Creates a new palette from preset colors.
     pub fn new(colors: Vec<Color>) -> Self {
         Self { colors }
     }
 
+    /// Parses a palette from the bytes of an act file.
+    ///
+    /// The expected format is a series of RGB triplets, followed by padding until the third-to-last byte,
+    /// which is the number of triplets. The final two bytes are also padding.
     pub fn from_act(bytes: &[u8]) -> Result<Self, ParseError> {
         const BYTES_PER_COLOR: usize = 3;
         const COUNT_OFFSET_FROM_END: usize = 3;
@@ -80,6 +91,7 @@ impl Deref for Palette {
     }
 }
 
+/// An error encountered when the bytes of a `.act` file cannot be parsed.
 #[derive(Debug, PartialEq)]
 #[non_exhaustive]
 pub struct ParseError;
