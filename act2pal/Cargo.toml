@@ -2,6 +2,3 @@
 name = "act2pal"
 version = "0.1.0"
 edition = "2021"
-
-[dependencies]
-thiserror = "2.0.11"

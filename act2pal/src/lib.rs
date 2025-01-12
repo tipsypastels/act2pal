@@ -1,8 +1,8 @@
 use std::{
+    error,
     fmt::{self, Write},
     ops::Deref,
 };
-use thiserror::Error;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Color {
@@ -82,7 +82,14 @@ impl Deref for Colors {
     }
 }
 
-#[derive(Debug, Error, PartialEq)]
-#[error("unprocessable bytes")]
+#[derive(Debug, PartialEq)]
 #[non_exhaustive]
 pub struct ParseError;
+
+impl fmt::Display for ParseError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "unprocessable bytes")
+    }
+}
+
+impl error::Error for ParseError {}
