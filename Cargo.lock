@@ -5,12 +5,7 @@ version = 4
 [[package]]
 name = "act2pal"
 version = "0.1.0"
-
-[[package]]
-name = "act2pal-cli"
-version = "0.1.0"
 dependencies = [
- "act2pal",
  "clap",
 ]
 

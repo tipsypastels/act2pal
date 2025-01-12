@@ -1,3 +1,12 @@
-[workspace]
-resolver = "2"
-members = ["act2pal", "act2pal-cli"]
+[package]
+name = "act2pal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.26", features = ["derive"] }
+
+
+# [workspace]
+# resolver = "2"
+# members = ["act2pal", "act2pal-cli"]
